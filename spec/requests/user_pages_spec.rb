@@ -24,7 +24,15 @@ describe "UserPages" do
     before { visit signup_path }
     let(:submit) { "Create my account" }
 
-    describe "with invalid password" do
+    describe "with invalid informations" do
+
+      describe "after submission" do
+        before { click_button submit }
+
+        it { should have_selector('title', text: 'Sign up') }
+        it { should have_content('error') }
+      end
+
       it "should not create a user" do
         expect { click_button submit }.not_to change(User, :count)
       end
