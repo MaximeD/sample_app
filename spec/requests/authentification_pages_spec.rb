@@ -44,6 +44,11 @@ describe "Authentification" do
     describe "for non signed in users" do
       let(:user) { FactoryGirl.create(:user) }
 
+      describe "some links should not appear" do
+        it { should_not have_link('Profile',     href:user_path(user)) }
+        it { should_not have_link('Settings',    href:edit_user_path(user)) }
+      end
+
       describe "in the Users controller" do
 
         describe "visiting the edit page" do
