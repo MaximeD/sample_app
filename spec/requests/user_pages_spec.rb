@@ -1,5 +1,20 @@
 require 'spec_helper'
 
+
+describe "admin" do
+  let(:admin) { FactoryGirl.create(:admin) }
+
+  # not quite sure about this spec:
+  # verify that the User admin attribute isn’t accessible
+  describe "accessible attributes" do
+    it "should not be 'admin'" do
+      expect do
+        User.new(admin: admin)
+      end.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
+    end
+  end
+end
+
 describe "UserPages" do
 
   subject { page }
