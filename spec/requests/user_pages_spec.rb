@@ -155,4 +155,21 @@ describe "UserPages" do
       specify { user.reload.email.should == new_email }
     end
   end
+
+  describe "authentified user" do
+    let(:user) { FactoryGirl.create(:user) }
+    before { sign_in user }
+
+    describe "visit create new user page" do
+      before { get new_user_path }
+      specify { response.should redirect_to(root_path) }
+    end
+
+    # should also test a POST request on Users to create a new one
+    # describe "post request to create new user" do
+    #    let(:another_user) { FactoryGirl.create(:user) }
+    #    before { post User.create(:user) }
+    #    specify { response.should redirect_to(root_path) }
+    #  end
+  end
 end
