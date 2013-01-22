@@ -1,4 +1,7 @@
-module SessionsHelper
+module Authenticable
+  def self.included( base )
+    base.send( :helper_method, :signed_in?, :current_user, :current_user? )
+  end
 
   def sign_in(user)
     cookies.permanent[:remember_token] = user.remember_token
