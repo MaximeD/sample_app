@@ -10,17 +10,27 @@ class UsersController < ApplicationController
   end
 
   def new
-    @user = User.new
+    unless signed_in?
+      @user = User.new
+    else
+      flash[:notice] = "You are already logged in"
+      redirect_to root_path
+    end
   end
 
   def create
-    @user = User.new(params[:user])
-    if @user.save
-      sign_in @user
-      flash[:success] = "Welcome to the Sample App!"
-      redirect_to @user
+    unless signed_in?
+      @user = User.new(params[:user])
+      if @user.save
+        sign_in @user
+        flash[:success] = "Welcome to the Sample App!"
+        redirect_to @user
+      else
+        render 'new'
+      end
     else
-      render 'new'
+      flash[:notice] = "You are already logged in"
+      redirect_to root_path
     end
   end
 

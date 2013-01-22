@@ -1,5 +1,20 @@
 require 'spec_helper'
 
+
+describe "admin" do
+  let(:admin) { FactoryGirl.create(:admin) }
+
+  # not quite sure about this spec:
+  # verify that the User admin attribute isn’t accessible
+  describe "accessible attributes" do
+    it "should not be 'admin'" do
+      expect do
+        User.new(admin: admin)
+      end.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
+    end
+  end
+end
+
 describe "UserPages" do
 
   subject { page }
@@ -139,5 +154,22 @@ describe "UserPages" do
       specify { user.reload.name.should == new_name }
       specify { user.reload.email.should == new_email }
     end
+  end
+
+  describe "authentified user" do
+    let(:user) { FactoryGirl.create(:user) }
+    before { sign_in user }
+
+    describe "visit create new user page" do
+      before { get new_user_path }
+      specify { response.should redirect_to(root_path) }
+    end
+
+    # should also test a POST request on Users to create a new one
+    # describe "post request to create new user" do
+    #    let(:another_user) { FactoryGirl.create(:user) }
+    #    before { post User.create(:user) }
+    #    specify { response.should redirect_to(root_path) }
+    #  end
   end
 end
