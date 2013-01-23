@@ -1,6 +1,6 @@
 module Authenticable
   def self.included( base )
-    base.send( :helper_method, :signed_in?, :current_user, :current_user? )
+    base.send( :helper_method, :signed_in_user, :signed_in?, :current_user, :current_user? )
   end
 
   def sign_in(user)
@@ -15,6 +15,13 @@ module Authenticable
 
   def signed_in?
     !current_user.nil?
+  end
+
+  def signed_in_user
+    unless signed_in?
+      store_location
+      redirect_to signin_url, notice: "Please sign in."
+    end
   end
 
   def current_user=(user)
