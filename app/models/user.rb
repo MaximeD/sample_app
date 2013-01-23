@@ -24,6 +24,10 @@ class User < ActiveRecord::Base
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX },
     uniqueness: { case_sensitive: false }
 
+  def feed
+    Micropost.where("user_id = ?", id)
+  end
+
   private
 
     def create_remember_token
