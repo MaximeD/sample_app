@@ -3,5 +3,8 @@
   <div class="field">
     <%= f.text_area :content, placeholder: "Compose new micropost..." %>
   </div>
+  <p id="length"></p>
   <%= f.submit "Post", class: "btn btn-large btn-primary" %>
 <% end %>
+
+<%= javascript_include_tag "micropost_form" %>
